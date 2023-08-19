@@ -4,4 +4,7 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a flutter project that help me master state management and also master firebase .
+This project is a flutter project that help me master state management and also master firebase.
+
+STATE MANAGEMENT USE
+#riverpod
