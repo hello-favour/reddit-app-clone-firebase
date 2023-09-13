@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_app_clone/components/sign_in_button.dart';
 import 'package:reddit_app_clone/constants/constants.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../../components/loader.dart';
+import '../controller/auth_controller.dart';
+
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isLoading = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -26,28 +31,31 @@ class LoginScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const Text(
-            "Dive into anything",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              letterSpacing: 0.5,
+      body: isLoading
+          ? const Loader()
+          : Column(
+              children: [
+                const SizedBox(height: 10),
+                const Text(
+                  "Dive into anything",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(height: 35),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    Constant.loginEmotePath,
+                    height: 400,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                const SignInButton(),
+              ],
             ),
-          ),
-          const SizedBox(height: 35),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(
-              Constant.loginEmotePath,
-              height: 400,
-            ),
-          ),
-          const SizedBox(height: 25),
-          const SignInButton(),
-        ],
-      ),
     );
   }
 }
