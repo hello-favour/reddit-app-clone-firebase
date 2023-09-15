@@ -54,7 +54,7 @@ class _HomeState extends ConsumerState<MyApp> {
                 if (data != null) {
                   getData(ref, data);
                   if (userModel != null) {
-                    loggedInRoute;
+                    return loggedInRoute;
                   }
                 }
                 return loggedOutRoute;

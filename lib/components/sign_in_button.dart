@@ -13,7 +13,7 @@ class SignInButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(authControllerProvider);
+    
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: ElevatedButton.icon(
