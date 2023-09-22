@@ -6,9 +6,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:reddit_app_clone/constants/constants.dart';
 import 'package:reddit_app_clone/constants/firebase_constants.dart';
 import 'package:reddit_app_clone/models/user_model.dart';
-import 'package:reddit_app_clone/provider/auth_provider.dart';
-import 'package:reddit_app_clone/provider/failure.dart';
-import 'package:reddit_app_clone/provider/type_def.dart';
+import 'package:reddit_app_clone/features/auth/provider/auth_provider.dart';
+import 'package:reddit_app_clone/features/auth/provider/failure.dart';
+import 'package:reddit_app_clone/features/auth/provider/type_def.dart';
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
@@ -51,8 +51,8 @@ class AuthRepository {
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
           name: userCredential.user!.displayName ?? "No name",
-          profilePic: userCredential.user!.photoURL ?? Constant.avatarDefault,
-          banner: Constant.bannerDefault,
+          profilePic: userCredential.user!.photoURL ?? Constants.avatarDefault,
+          banner: Constants.bannerDefault,
           uid: userCredential.user!.uid,
           isAuthenticated: true,
           karma: 0,
@@ -73,5 +73,10 @@ class AuthRepository {
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  void logOut() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
   }
 }

@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_app_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_app_clone/features/auth/screens/home/community_list_drawer.dart';
+import 'package:reddit_app_clone/features/auth/screens/home/drawer/profile_drawer.dart';
+
+import 'delegates/search_community_delegates.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   void displayDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
+  }
+
+  void displayEndDrawer(BuildContext context) {
+    Scaffold.of(context).openEndDrawer();
   }
 
   @override
@@ -25,20 +32,38 @@ class HomeScreen extends ConsumerWidget {
         }),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                  context: context, delegate: SearchCommunityDelegates(ref));
+            },
             icon: const Icon(
               Icons.search,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: CircleAvatar(
-              backgroundImage: NetworkImage(user.profilePic),
+          Builder(
+            builder: (context) {
+              return IconButton(
+                onPressed: () => displayEndDrawer(context),
+                icon: CircleAvatar(
+                  backgroundImage: NetworkImage(user.profilePic),
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          Text(
+            "u/${user.name}",
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
             ),
           ),
+          const SizedBox(height: 10),
+          const Divider(),
         ],
       ),
       drawer: const CommunityListDrawer(),
+      endDrawer: const ProfileDrawer(),
     );
   }
 }
