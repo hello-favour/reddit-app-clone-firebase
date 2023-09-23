@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_app_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_app_clone/features/auth/provider/storage_repository_provider.dart';
 import 'package:reddit_app_clone/features/user_profile/repository/user_profile_repository.dart';
+import 'package:reddit_app_clone/models/post_model.dart';
 import 'package:reddit_app_clone/models/user_model.dart';
 import 'package:reddit_app_clone/utils.dart';
 import 'package:routemaster/routemaster.dart';
@@ -68,5 +69,9 @@ class UserProfileController extends StateNotifier<bool> {
       _ref.read(userProvider.notifier).update((state) => user);
       Routemaster.of(context).pop();
     });
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _userProfileRepository.getUserPosts(uid);
   }
 }
